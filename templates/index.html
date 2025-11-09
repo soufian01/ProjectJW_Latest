@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>CoachKat</title>
+  <!-- Google Fonts: Space Grotesk for headings, Inter for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="relative min-h-screen overflow-x-hidden text-gray-900">
+  <!-- Background layer: rich gradients + noise texture -->
+  <div class="fixed inset-0 -z-10 bg-gradient-to-br from-purple-100 via-pink-50 to-indigo-100"></div>
+  <div class="fixed inset-0 -z-10 opacity-[0.03] pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 /%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22 /%3E%3C/svg%3E'); background-size: 200px 200px;"></div>
+  <!-- Radial accent gradients - more visible in light mode -->
+  <div class="fixed top-0 left-1/4 w-[32rem] h-[32rem] bg-purple-300/40 rounded-full blur-3xl -z-10"></div>
+  <div class="fixed bottom-0 right-1/4 w-[32rem] h-[32rem] bg-indigo-300/40 rounded-full blur-3xl -z-10"></div>
+  <!-- Additional accent for depth (less intense in dark mode) -->
+  <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-pink-200/25 dark:bg-pink-900/10 dark:opacity-70 rounded-full blur-3xl -z-10"></div>
+  <header class="max-w-[1280px] mx-auto p-6">
+    <div class="flex items-center justify-between">
+      <div class="flex-1"></div>
+
+      <div class="flex-1 text-center">
+        <h1 class="text-4xl font-extrabold">Coach Kat</h1>
+        <p class="text-xl text-gray-400 mt-1">Personal Training</p>
+      </div>
+
+      <div class="flex-1 flex items-center justify-end">
+        <button id="themeToggle" type="button" class="text-sm px-3 py-1 rounded bg-gradient-to-r from-purple-500 to-indigo-500 text-white">Toggle theme</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-[1280px] mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <!-- Image with subtle spotlight -->
+    <section class="lg:col-span-3 relative">
+      <!-- Spotlight behind image -->
+      <div class="absolute inset-0 flex items-center justify-center -z-10">
+        <div class="w-full max-w-2xl h-full bg-gradient-radial from-purple-200/30 via-transparent to-transparent blur-2xl"></div>
+      </div>
+      <div class="max-w-2xl mx-auto px-6">
+        <img src="/static/images/freepik__background__9288.png" alt="Coach Kat" class="w-full h-auto rounded-lg" />
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="lg:col-span-3 md:-mt-12 lg:-mt-38">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-xl font-semibold mb-2">About</h2>
+      <div class="text-sm leading-relaxed space-y-3">
+        <p>If you train too hard, you might derail your career. At least, that’s what happened to me.</p>
+
+        <p>Being interested in virtually every subject in school, I was quite lost when presented with the challenge of building a career after graduation. Still unsure of my next move throughout my first degree, I looked out for unique job experiences, and coached the BIS swim team. Those two seasons changed everything.</p>
+
+        <p>Until this point, I had already been self-coaching the sports I’d done at school and learning more about physiology, sports psychology, and training theory. Coaching others made it clear what motivated me, and became my coaching philosophy: sharing the joy of movement. Or, if you ask my LinkedIn: “creating and facilitating positive experiences, at any level of experience and physical fitness, centred around enjoying the process of pushing one’s physical and mental limits through the medium of physical exercise”.</p>
+
+        <p>Through my studies at the German Sport University, I am now actively pursuing my ultimate goal of closing the gap in menopause research and helping women and afab get strong (and stay that way!). But I haven’t forgotten where it all started, being deeply motivated as a coach to support others to become the strongest, most confident version of themselves. Parallel to my studies, I am a personal trainer, specialising in strength training for pre-, peri-, and post-menopausal women.</p>
+
+        <p>So if you are (or someone you love is) a woman: are you ready to get strong and stay that way through menopause and beyond? If so, I’d love to support that journey.</p>
+      </div>
+      </div>
+    </section>
+    
+  <!-- Videos -->
+  <!-- make this span full width on large screens so the players can truly center in the page -->
+  <section class="lg:col-span-3">
+      <div class="flex items-center justify-center mb-10">
+        <h2 class="text-2xl font-bold">Video Library</h2>
+      </div>
+  <!-- Videos displayed side-by-side, centered, with spacing and rounded corners -->
+  <!-- added flex-wrap and items-start so cards align nicely and stay centered inside the max-width -->
+  <div id="videoList" class="flex flex-col md:flex-row md:flex-wrap justify-center items-start gap-8 mx-auto max-w-4xl">
+        <!-- Videos will be loaded here as inline <video> elements -->
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="lg:col-span-3 glass-card rounded-xl p-5">
+      <h2 class="text-xl font-semibold">Contact Request</h2>
+      <form id="contactForm" class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
+        <label class="sr-only" for="name">Name</label>
+        <input id="name" name="name"  class="border rounded px-3 py-2" placeholder="Your name" required />
+
+        <label class="sr-only" for="email">Email</label>
+        <input id="email" name="email" type="email" class="border rounded px-3 py-2" placeholder="Email" required />
+
+        <label class="sr-only" for="message">Message</label>
+        <textarea id="message" name="message" class="border rounded px-3 py-2 md:col-span-2" placeholder="What do you need help with?" required></textarea>
+
+        <button type="submit" class="bg-black text-white rounded px-4 py-2 md:col-span-1">Send</button>
+      </form>
+      <p id="contactStatus" class="text-sm mt-2" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <!-- Find us section (place this where you want the map to appear) -->
+  <section id="find-us" class="mt-8 max-w-[1280px] mx-auto p-6">
+    <h3 class="text-lg font-semibold">Find Me</h3>
+    <button id="showLocationBtn" type="button" class="mt-2 inline-block px-4 py-2 rounded bg-purple-600 text-white">Show location</button>
+    <div id="mapContainer" class="mt-4 w-full"></div>
+  </section>
+
+  <script>
+    // Theme: dark mode with purple accent
+    (function(){
+      const root = document.documentElement;
+      const themeToggle = document.getElementById('themeToggle');
+      const applyTheme = (t) => {
+        if(t === 'dark') {
+          root.classList.add('dark');
+          localStorage.setItem('theme','dark');
+        } else {
+          root.classList.remove('dark');
+          localStorage.setItem('theme','light');
+        }
+      };
+      const saved = localStorage.getItem('theme') || 'dark';
+      applyTheme(saved);
+      themeToggle.addEventListener('click', ()=> applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
+    })();
+
+    // Enhanced CSS variables and glassmorphism styling
+    const style = document.createElement('style');
+    style.textContent = `
+      :root { 
+        --bg: #f8fafc; 
+        --card: rgba(255, 255, 255, 0.7); 
+        --text: #0f172a; 
+        --muted: #64748b; 
+        --accent: #7c3aed; 
+        --glass-border: rgba(255, 255, 255, 0.3);
+        --glass-shadow: rgba(0, 0, 0, 0.1);
+      }
+      .dark { 
+        --bg: #05060b; 
+        --card: rgba(15, 23, 36, 0.6); 
+        --card-light: rgba(17, 24, 39, 0.5); 
+        --text: #e6eef8; 
+        --muted: #9aa7bf; 
+        --accent: #8b5cf6;
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --glass-shadow: rgba(0, 0, 0, 0.3);
+      }
+
+      /* Typography */
+      body { 
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-weight: 400;
+      }
+      
+      h1, h2, h3, h4, h5, h6 { 
+        font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      }
+      
+      h1 { font-weight: 700; }
+      h2 { font-weight: 600; }
+      h3, h4, h5, h6 { font-weight: 600; }
+
+      /* Dark mode background gradients */
+      .dark body { 
+        background: linear-gradient(to bottom right, #05060b, #0a0e1a, #0f1420) !important; 
+        color: var(--text) !important; 
+      }
+      .dark .bg-gradient-to-br { 
+        background: linear-gradient(to bottom right, #0a0e1a, #1a1f3a, #1e1b3e) !important; 
+      }
+      .dark .bg-purple-300\\/20 { 
+        background-color: rgba(216, 180, 254, 0.1) !important; 
+      }
+      .dark .bg-indigo-300\\/20 { 
+        background-color: rgba(165, 180, 252, 0.1) !important; 
+      }
+
+      /* Glassmorphism cards */
+      .glass-card {
+        background: var(--card);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 8px 32px var(--glass-shadow);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .glass-card {
+          transition: none;
+        }
+      }
+
+      .glass-card:hover {
+        box-shadow: 0 12px 48px var(--glass-shadow);
+        transform: translateY(-2px);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .glass-card:hover {
+          transform: none;
+        }
+      }
+
+      /* Radial gradient support */
+      .bg-gradient-radial {
+        background: radial-gradient(circle, var(--tw-gradient-stops));
+      }
+
+      /* Text contrast - maintain WCAG AA */
+      .text-gray-600 { color: var(--muted) !important; }
+      .text-gray-500 { color: var(--muted) !important; }
+      .bg-black { 
+        background: linear-gradient(90deg, var(--accent), #5b21b6) !important; 
+      }
+      .border { border-color: var(--glass-border) !important; }
+      
+      /* Form inputs glassmorphism */
+      input, textarea { 
+        background: rgba(255, 255, 255, 0.9) !important; 
+        color: #0f172a !important; 
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        backdrop-filter: blur(8px);
+        transition: all 0.2s ease;
+      }
+      
+      .dark input, .dark textarea { 
+        background: rgba(15, 23, 36, 0.5) !important; 
+        color: var(--text) !important; 
+        border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+      }
+
+      input:focus, textarea:focus {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+        border-color: var(--accent) !important;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        input, textarea {
+          transition: none;
+        }
+      }
+
+      /* Links and headings - preserve contrast */
+      a { color: var(--accent) !important; }
+      h1, h2, h3 { color: var(--text) !important; }
+      button:disabled { opacity: 0.6; }
+
+      /* Video cards glassmorphism */
+      .video-card {
+        background: var(--card);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border);
+        border-radius: 1rem;
+        padding: 1rem;
+        box-shadow: 0 8px 32px var(--glass-shadow);
+      }
+    `;
+    document.head.appendChild(style);
+
+    const videoListEl = document.getElementById('videoList');
+
+    async function loadVideos() {
+      try {
+        const res = await fetch('/api/videos');
+        if (!res.ok) throw new Error('Network response was not ok');
+        const data = await res.json();
+        if (!Array.isArray(data) || data.length === 0) {
+          videoListEl.innerHTML = '<p class="text-gray-500">No videos yet.</p>'; return;
+        }
+        videoListEl.innerHTML = '';
+        data.forEach(v => {
+          // Create a container for each video with title + player
+          // give each container a fixed responsive width so multiple players center evenly
+          const container = document.createElement('div');
+          container.className = 'w-72 md:w-80 lg:w-96 flex flex-col items-center gap-2 video-card';
+          
+          const title = document.createElement('p');
+          title.className = 'font-medium text-sm text-center';
+          title.textContent = v.title || 'Untitled';
+          
+          const videoEl = document.createElement('video');
+          videoEl.src = v.url;
+          videoEl.controls = true;
+          // make the video fill the container width but keep its aspect ratio and avoid cropping
+          videoEl.className = 'rounded-lg w-full';
+          videoEl.style.maxHeight = '500px';
+          videoEl.style.objectFit = 'contain';
+          videoEl.style.width = '100%';
+          videoEl.style.height = 'auto';
+          // prevent the player from being upscaled beyond its native resolution
+          videoEl.addEventListener('loadedmetadata', () => {
+            try {
+              if (videoEl.videoWidth) {
+                // set max-width to the video's natural width (px) so larger containers won't upscale it
+                videoEl.style.maxWidth = videoEl.videoWidth + 'px';
+              }
+            } catch (e) {
+              // ignore errors and allow default sizing
+              console.warn('Could not set natural maxWidth for video', e);
+            }
+          });
+          
+          container.appendChild(title);
+          container.appendChild(videoEl);
+          videoListEl.appendChild(container);
+        });
+      } catch (err) {
+        console.error(err);
+        videoListEl.textContent = 'Failed to load videos.';
+      }
+    }
+
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const fd = new FormData(form);
+      const body = { name: fd.get('name'), email: fd.get('email'), message: fd.get('message') };
+      const out = document.getElementById('contactStatus');
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      try {
+        const res = await fetch('/api/contact', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
+        if (res.ok) {
+          out.textContent = 'Thanks! I will get back to you shortly.'; out.className = 'text-sm mt-2 text-green-600'; form.reset();
+        } else {
+          const err = await res.json().catch(()=>({})); out.textContent = 'Error: ' + (err.error || 'could not send'); out.className = 'text-sm mt-2 text-red-600';
+        }
+      } catch (err) { console.error(err); out.textContent = 'Network error'; out.className = 'text-sm mt-2 text-red-600'; }
+      finally { submitBtn.disabled = false; }
+    });
+
+    // Find Us (optional handler) — guard against missing elements to avoid breaking other handlers
+    (function(){
+      const findUsBtn = document.getElementById('findUsBtn');
+      if (!findUsBtn) return;
+      findUsBtn.addEventListener('click', async () => {
+        const out = document.getElementById('findUsOut');
+        const mapEmbed = document.getElementById('mapEmbed');
+        if (out) out.textContent = 'Loading…';
+        if (mapEmbed) mapEmbed.innerHTML = '';
+        try {
+          const res = await fetch('/api/find-us');
+          if (!res.ok) throw new Error('Failed to fetch location');
+          const place = await res.json();
+          if (out) out.innerHTML = `${place.name} — ${place.address} <a href="${place.maps_url}" target="_blank" class="underline ml-2">Open in Google Maps</a>`;
+          // embed the provided iframe directly if container exists
+          if (mapEmbed) {
+            mapEmbed.innerHTML = `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d80429.06496168647!2d6.78540945053099!3d50.953155244112985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf2572d0d7e601%3A0xac339addcd4e3c68!2sXTRAFIT%20K%C3%B6ln-Ehrenfeld!5e0!3m2!1sen!2sde!4v1761516792559!5m2!1sen!2sde" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
+          }
+        } catch (err) { console.error(err); if (out) out.textContent = 'Could not load location.'; }
+      });
+    })();
+
+    async function showLocation() {
+      const btn = document.getElementById('showLocationBtn');
+      const container = document.getElementById('mapContainer');
+      btn.disabled = true;
+      container.innerHTML = 'Loading...';
+      try {
+        // directly embed the iframe you provided
+        container.innerHTML = `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d80429.06496168647!2d6.78540945053099!3d50.953155244112985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf2572d0d7e601%3A0xac339addcd4e3c68!2sXTRAFIT%20K%C3%B6ln-Ehrenfeld!5e0!3m2!1sen!2sde!4v1761516792559!5m2!1sen!2sde" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
+      } catch (err) {
+        container.textContent = 'Unable to load location.';
+        console.error(err);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+    document.getElementById('showLocationBtn').addEventListener('click', showLocation);
+
+    loadVideos();
+  </script>
+</body>
+</html>
