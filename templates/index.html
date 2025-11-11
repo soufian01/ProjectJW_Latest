@@ -97,7 +97,7 @@
     </section>
   </main>
 
-  <!-- Find us section (place this where you want the map to appear) -->
+  <!-- Find Me section -->
   <section id="find-us" class="mt-8 max-w-[1280px] mx-auto p-6">
     <h3 class="text-lg font-semibold">Find Me</h3>
     <button id="showLocationBtn" type="button" class="mt-2 inline-block px-4 py-2 rounded bg-purple-600 text-white">Show location</button>
@@ -332,35 +332,12 @@
       finally { submitBtn.disabled = false; }
     });
 
-    // Find Us (optional handler) — guard against missing elements to avoid breaking other handlers
-    (function(){
-      const findUsBtn = document.getElementById('findUsBtn');
-      if (!findUsBtn) return;
-      findUsBtn.addEventListener('click', async () => {
-        const out = document.getElementById('findUsOut');
-        const mapEmbed = document.getElementById('mapEmbed');
-        if (out) out.textContent = 'Loading…';
-        if (mapEmbed) mapEmbed.innerHTML = '';
-        try {
-          const res = await fetch('/api/find-us');
-          if (!res.ok) throw new Error('Failed to fetch location');
-          const place = await res.json();
-          if (out) out.innerHTML = `${place.name} — ${place.address} <a href="${place.maps_url}" target="_blank" class="underline ml-2">Open in Google Maps</a>`;
-          // embed the provided iframe directly if container exists
-          if (mapEmbed) {
-            mapEmbed.innerHTML = `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d80429.06496168647!2d6.78540945053099!3d50.953155244112985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf2572d0d7e601%3A0xac339addcd4e3c68!2sXTRAFIT%20K%C3%B6ln-Ehrenfeld!5e0!3m2!1sen!2sde!4v1761516792559!5m2!1sen!2sde" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
-          }
-        } catch (err) { console.error(err); if (out) out.textContent = 'Could not load location.'; }
-      });
-    })();
-
     async function showLocation() {
       const btn = document.getElementById('showLocationBtn');
       const container = document.getElementById('mapContainer');
       btn.disabled = true;
       container.innerHTML = 'Loading...';
       try {
-        // directly embed the iframe you provided
         container.innerHTML = `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d80429.06496168647!2d6.78540945053099!3d50.953155244112985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf2572d0d7e601%3A0xac339addcd4e3c68!2sXTRAFIT%20K%C3%B6ln-Ehrenfeld!5e0!3m2!1sen!2sde!4v1761516792559!5m2!1sen!2sde" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
       } catch (err) {
         container.textContent = 'Unable to load location.';
@@ -369,6 +346,7 @@
         btn.disabled = false;
       }
     }
+    
     document.getElementById('showLocationBtn').addEventListener('click', showLocation);
 
     loadVideos();

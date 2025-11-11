@@ -1,9 +1,10 @@
+-- SQLite Schema
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS videos (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   title TEXT NOT NULL,
-  url TEXT NOT NULL,               -- e.g., /static/videos/How_Coaching_Works.mp4
+  url TEXT NOT NULL,
   durationSeconds INTEGER DEFAULT 0,
   published_at TEXT DEFAULT CURRENT_TIMESTAMP
 );

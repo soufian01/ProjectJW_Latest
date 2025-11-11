@@ -1,27 +1,33 @@
-import sqlite3, pathlib
+import sqlite3
+import pathlib
 
-BASE = pathlib.Path(__file__).resolve().parent.parent  # project root
-DB_PATH = BASE / "coachkat.db"
-SCHEMA = pathlib.Path(__file__).with_name("Schema.sql")
+BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
+DB_PATH = BASE_DIR / "coachkat.db"
+SCHEMA_PATH = pathlib.Path(__file__).parent / "schema.sql"
+
 
 def main():
-    con = sqlite3.connect(DB_PATH)
-    with open(SCHEMA, "r", encoding="utf-8") as f:
-        con.executescript(f.read())
+    connection = sqlite3.connect(str(DB_PATH))
+    
+    with open(SCHEMA_PATH, "r", encoding="utf-8") as schema_file:
+        connection.executescript(schema_file.read())
 
-    cur = con.cursor()
-    count = cur.execute("SELECT COUNT(*) FROM videos").fetchone()[0]
-    if count == 0:
-        cur.executemany(
-            "INSERT INTO videos(title, url, durationSeconds) VALUES(?,?,?)",
+    cursor = connection.cursor()
+    video_count = cursor.execute("SELECT COUNT(*) FROM videos").fetchone()[0]
+    
+    if video_count == 0:
+        cursor.executemany(
+            "INSERT INTO videos(title, url, durationSeconds) VALUES(?, ?, ?)",
             [
                 ("Welcome to CoachKat", "/static/videos/How_Coaching_Works.mp4", 45),
                 ("Focus Pomodoro Demo", "/static/videos/How_Coaching_Works.mp4", 60),
             ],
         )
-    con.commit()
-    con.close()
-    print(f"Initialized {DB_PATH}")
+    
+    connection.commit()
+    connection.close()
+    print(f"Database initialized: {DB_PATH}")
+
 
 if __name__ == "__main__":
     main()
