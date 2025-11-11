@@ -1,0 +1,138 @@
+/* CSS Variables */
+:root { 
+  --bg: #f8fafc; 
+  --card: rgba(255, 255, 255, 0.7); 
+  --text: #0f172a; 
+  --muted: #64748b; 
+  --accent: #7c3aed; 
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: rgba(0, 0, 0, 0.1);
+}
+
+.dark { 
+  --bg: #05060b; 
+  --card: rgba(15, 23, 36, 0.6); 
+  --card-light: rgba(17, 24, 39, 0.5); 
+  --text: #e6eef8; 
+  --muted: #9aa7bf; 
+  --accent: #8b5cf6;
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* Typography */
+body { 
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+}
+
+h1, h2, h3, h4, h5, h6 { 
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+h1 { font-weight: 700; }
+h2 { font-weight: 600; }
+h3, h4, h5, h6 { font-weight: 600; }
+
+/* Dark mode background gradients */
+.dark body { 
+  background: linear-gradient(to bottom right, #05060b, #0a0e1a, #0f1420) !important; 
+  color: var(--text) !important; 
+}
+
+.dark .bg-gradient-to-br { 
+  background: linear-gradient(to bottom right, #0a0e1a, #1a1f3a, #1e1b3e) !important; 
+}
+
+.dark .bg-purple-300\/20 { 
+  background-color: rgba(216, 180, 254, 0.1) !important; 
+}
+
+.dark .bg-indigo-300\/20 { 
+  background-color: rgba(165, 180, 252, 0.1) !important; 
+}
+
+/* Glassmorphism cards */
+.glass-card {
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px var(--glass-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-card {
+    transition: none;
+  }
+}
+
+.glass-card:hover {
+  box-shadow: 0 12px 48px var(--glass-shadow);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-card:hover {
+    transform: none;
+  }
+}
+
+/* Radial gradient support */
+.bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
+/* Text contrast - maintain WCAG AA */
+.text-gray-600 { color: var(--muted) !important; }
+.text-gray-500 { color: var(--muted) !important; }
+
+.bg-black { 
+  background: linear-gradient(90deg, var(--accent), #5b21b6) !important; 
+}
+
+.border { border-color: var(--glass-border) !important; }
+
+/* Form inputs glassmorphism */
+input, textarea { 
+  background: rgba(255, 255, 255, 0.9) !important; 
+  color: #0f172a !important; 
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+.dark input, .dark textarea { 
+  background: rgba(15, 23, 36, 0.5) !important; 
+  color: var(--text) !important; 
+  border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+}
+
+input:focus, textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-color: var(--accent) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  input, textarea {
+    transition: none;
+  }
+}
+
+/* Links and headings - preserve contrast */
+a { color: var(--accent) !important; }
+h1, h2, h3 { color: var(--text) !important; }
+button:disabled { opacity: 0.6; }
+
+/* Video cards glassmorphism */
+.video-card {
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 8px 32px var(--glass-shadow);
+}
