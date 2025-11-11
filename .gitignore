@@ -1,0 +1,10 @@
+﻿.venv/
+*.db
+*.db.bak
+*.log
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+node_modules/
+.gitconfig
